@@ -18,8 +18,7 @@ Description :
 <cfcomponent name="GroovyLoader"
 			 extends="coldbox.system.Plugin"
 			 output="false"
-			 cache="True"
-			 cacheTimeout="0">
+			 singleton>
 
 <!------------------------------------------- CONSTRUCTOR ------------------------------------------->
 		
@@ -27,25 +26,27 @@ Description :
 		<cfargument name="controller" type="any" required="true">
 		<cfscript>
 			/* Plugin Setup */
-			super.init(arguments.controller);
-			setPluginName("Groovy Loader");
-			setPluginVersion("2.0");
-			setPluginDescription("Plugin for interacting with groovy");
+			super.init( arguments.controller );
+			setPluginName( "Groovy Loader" );
+			setPluginVersion( "3.0" );
+			setPluginDescription(" Plugin for interacting with the Groovy Language" );
+			setPluginAuthor( "Ortus Solutions" );
+			setPluginAuthorURL( "http://www.ortussolutions.com" );
 			
 			/* Core Java Lib Path where groovy lang is located */
-			instance.javaLibPaths = getDirectoryFromPath(getMetadata(this).path) & "lib";
+			instance.javaLibPaths = getDirectoryFromPath( getMetadata( this ).path ) & "lib";
 			/* Groovy Class Path */
 			instance.groovyClassPath = "";
 			/* Java Loader */
 			instance.javaLoader = getPlugin("JavaLoader");
 			/* Check for User paths in settings, it can be a list. */
-			if( settingExists("groovyloader_libpaths") ){
-				instance.javaLibPaths = listAppend(instance.javaLibPaths,getSetting("groovyloader_libpaths"));
+			if( settingExists( "groovyloader_libpaths" ) ){
+				instance.javaLibPaths = listAppend( instance.javaLibPaths, getSetting( "groovyloader_libpaths" ) );
 			}			
 			/* JavaLoad Groovy Lib & Extras */
-			instance.javaLoader.setup(pathToArray(instance.javaLibPaths));
+			instance.javaLoader.setup( pathToArray( instance.javaLibPaths ) );
 			/* Create Groovy Class Loader */
-			instance.groovyClassLoader = instance.javaLoader.create("groovy.lang.GroovyClassLoader").init(instance.javaLoader.getURLClassLoader());
+			instance.groovyClassLoader = instance.javaLoader.create( "groovy.lang.GroovyClassLoader" ).init( instance.javaLoader.getURLClassLoader() );
 			
 			/* Return groovy loader */
 			return this;
@@ -64,15 +65,13 @@ Description :
 			var cacheKey = "groovy-" & targetFilePath;
 			var oCache = getColdboxOCM();
 			
-			/* Check if already in cache */
-			if( oCache.lookup(cacheKey) ){
-				targetObject = getColdboxOCM().get(cacheKey);
-			}
-			else{
-				/* Parse the target File and create a new instance */
-				targetObject = classLoader.parseClass(getTargetFileObject(targetFilePath));
-				/* Cache it */
-				oCache.set(cacheKey,targetObject);
+			// Try to get class
+			targetObject = oCache.get( cacheKey );
+			if( isNull( targetObject ) ){
+				// Parse the target File and create a new instance
+				targetObject = classLoader.parseClass( getTargetFileObject( targetFilePath ) );
+				// Cache it
+				oCache.set( cacheKey, targetObject );
 			}
 			
 			/* Return built groovy class */
@@ -87,9 +86,9 @@ Description :
 		<cfscript>
 			var script = 0;
 			/* Create Script Clazz */
-			script = create(arguments.scriptname);
+			script = create( arguments.scriptname );
 			/* Bind Our Variables */
-			script.setBinding(getBinding(arguments.varCollection));
+			script.setBinding( getBinding( arguments.varCollection ) );
 			/* Execute it */
 			script.run();		
 		</cfscript>
@@ -107,24 +106,23 @@ Description :
 			var oCache = getColdboxOCM();
 			
 			/* Check if source is not empty */
-			if( len(trim(arguments.scriptSource)) eq 0 ){
-				throw(message="source content cannot be empty",type="GroovyLoader.gscript.IllegalUsageException");
+			if( len( trim( arguments.scriptSource ) ) eq 0 ){
+				throw(message="source content cannot be empty", type="GroovyLoader.gscript.IllegalUsageException");
 			}
 			
 			/* Check if scriptsource already in cache */
-			if( oCache.lookup(cacheKey) ){
-				targetObject = getColdboxOCM().get(cacheKey);
-			}
-			else{
+			targetObject = oCache.get( cacheKey );
+			if( isNull( targetObject ) ){
 				/* Parse the target source and create a new instance */
-				targetObject = classLoader.parseClass(arguments.scriptSource);
+				targetObject = classLoader.parseClass( arguments.scriptSource );
 				/* Cache it */
-				oCache.set(cacheKey,targetObject);
+				oCache.set( cacheKey, targetObject );
 			}
+			
 			/* Create Script From Source */
 			script = targetObject.newInstance();
 			/* Bind this puppy */
-			script.setBinding(getBinding(arguments.varCollection));
+			script.setBinding( getBinding( arguments.varCollection ) );
 			/* Execute it */
 			script.run();		
 		</cfscript>
@@ -183,7 +181,7 @@ Description :
 	<!--- clearCache --->
 	<cffunction name="clearClazzCache" output="false" access="public" returntype="void" hint="Clear the clazz cache">
 		<cfscript>
-			getColdboxOCM().clearByKeySnippet(keySnippet='groovy-',async=false);
+			getColdboxOCM().clearByKeySnippet(keySnippet='groovy-', async=false);
 		</cfscript>
 	</cffunction> 	
 	
@@ -214,9 +212,9 @@ Description :
 			}
 			
 			/* if we get here, no class matched */
-			throw("Groovy class:#arguments.scriptname# not found",
-				  "The class could not be located in any of the configured class paths: #paths#",
-				  "GroovyLoader.ClassNotFoundException");
+			throw(message="Groovy class:#arguments.scriptname# not found",
+				  detail="The class could not be located in any of the configured class paths: #paths#",
+				  type="GroovyLoader.ClassNotFoundException");
 			
 		</cfscript>
 	</cffunction>
@@ -225,8 +223,7 @@ Description :
 	<cffunction name="getTargetFileObject" output="false" access="private" returntype="any" hint="Create a groovy target file">
 		<cfargument name="scriptname" type="string" required="true" hint="The script name to add a target file to"/>
 		<cfscript>
-			/* Create Target File */
-			return createObject("java","java.io.File").init(arguments.scriptname);		
+			return createObject("java","java.io.File").init( arguments.scriptname );		
 		</cfscript>
 	</cffunction>
 	
@@ -261,22 +258,23 @@ Description :
 	</cffunction>
 	
 	<!--- Get a Binding --->
-	<cffunction name="getBinding" access="private" output="false" returntype="any" hint="groovy bindings">
-		<cfargument name="varCollection" 	type="struct" required="false" default="#structnew()#" hint="A variable collection to bind the script with"/>
+	<cffunction name="getBinding" access="private" output="false" returntype="any" hint="Prepare groovy bindings">
+		<cfargument name="varCollection" type="struct" required="false" default="#structnew()#" hint="A variable collection to bind the script with"/>
 		<cfscript>
-			var binding = instance.javaloader.create("groovy.lang.Binding").init();
+			var binding = instance.javaloader.create( "groovy.lang.Binding" ).init();
 			var event = getController().getRequestService().getContext();
 			
-			/* Bind Commong ColdBox & CF Data */
-			binding.setVariable("varCollection",arguments.varCollection);
-			binding.setVariable("coldbox_rc",event.getCollection());
-			binding.setVariable("cf_pageContext",getPageContext());
-			binding.setVariable("cf_application",application);
-			binding.setVariable("cf_server",server);
-			if( isDefined("session") ){
-				binding.setVariable("cf_session",session);
+			/* Bind Common ColdBox & CF Data */
+			binding.setVariable( "varCollection", arguments.varCollection );
+			binding.setVariable( "coldbox_rc", event.getCollection() );
+			binding.setVariable( "coldbox_prc", event.getCollection(private=true) );
+			binding.setVariable( "cf_pageContext", getPageContext() );
+			binding.setVariable( "cf_application", application );
+			binding.setVariable( "cf_server", server );
+			binding.setVariable( "cf_request", request );
+			if( isDefined( "session" ) ){
+				binding.setVariable("cf_session", session );
 			}
-			
 			return binding;			
 		</cfscript>
 	</cffunction>

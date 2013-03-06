@@ -39,7 +39,7 @@ Description :
 	<!--- afterAspectsLoad --->
 	<cffunction name="afterAspectsLoad" output="false" access="public" returntype="void" hint="Load the Groovy Loader Runtime">
 		<cfscript>
-			getMyPlugin(getProperty('pluginClassPath')).configureClassPath(getProperty('groovyLibPaths'));
+			getMyPlugin( getProperty('pluginClassPath') ).configureClassPath( getProperty('groovyLibPaths') );
 		</cfscript>
 	</cffunction>
 
