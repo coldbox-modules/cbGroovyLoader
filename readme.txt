@@ -47,6 +47,10 @@ side effect is only visualized on development.
 RELEASE NOTES
 ********************************************************************************
 
+=== Version 3.1 ===
+* Updated Groovy library to 2.4.5 (Requires JAVA 1.7+)
+* Converted to coldbox module 'cbgroovy'
+
 === Version 3.0 ===
 * Updated to ColdBox 3.6 standards
 * Updated to pass in the private request collection to groovy bindings
