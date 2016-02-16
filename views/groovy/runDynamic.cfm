@@ -1,5 +1,5 @@
 <cfoutput>
-#getPlugin("messagebox").renderit()#
+#getInstance("MessageBox@cbmessagebox").renderit()#
 <a href="#event.buildLink('groovy')#">Back Home</a>
 <br /><br />
 <hr />

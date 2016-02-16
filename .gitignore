@@ -1,3 +1,5 @@
 .DS_Store
 .settings/
 settings.xml
+modules/*
+!modules/cbgroovy

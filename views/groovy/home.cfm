@@ -5,7 +5,7 @@
 <a href="#event.buildLink('groovy.runTagSource')#">Run Tag Source</a> |
 <a href="#event.buildLink('groovy.runDynamic')#">Run Dynamic Source</a>
 
-#getPlugin("MessageBox").renderit()#
+#getInstance("MessageBox@cbmessagebox").renderit()#
 
 <br /><br />
 <div class="well">
