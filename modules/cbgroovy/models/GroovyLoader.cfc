@@ -26,9 +26,9 @@ Description :
 <!------------------------------------------- CONSTRUCTOR ------------------------------------------->
 		
 	<cffunction name="init" access="public" returntype="GroovyLoader">
-		<cfargument name="javaLoader" 		type="struct" required="true" inject="id:loader@cbjavaloader"/>
-		<cfargument name="requestService" 	type="struct" required="true" inject="coldbox:requestService"/>
-		<cfargument name="settings" 		type="struct" required="true" inject="coldbox:setting:groovy"/>
+		<cfargument name="javaLoader" 		type="any" required="true" inject="id:loader@cbjavaloader"/>
+		<cfargument name="requestService" 	type="any" required="true" inject="coldbox:requestService"/>
+		<cfargument name="settings" 		type="any" required="true" inject="coldbox:setting:groovy"/>
 
 		<cfscript>
 			variables.instance = {};
