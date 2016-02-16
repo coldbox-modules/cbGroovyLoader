@@ -3,9 +3,9 @@
 <a href="#event.buildLink('groovy.runScript')#">Run Script</a> | 
 <a href="#event.buildLink('groovy.runSource')#">Run Source</a> | 
 <a href="#event.buildLink('groovy.runTagSource')#">Run Tag Source</a> |
-<a href="#event.buildLink('groovy.runDynamic')#">Run Dynamic Source</a>
+<a href="#event.buildLink('groovy.runDynamic')#">Run Dynamic Bean</a>
 
-#getPlugin("MessageBox").renderit()#
+#getInstance("MessageBox@cbmessagebox").renderit()#
 
 <br /><br />
 <div class="well">
