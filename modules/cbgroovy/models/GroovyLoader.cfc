@@ -260,7 +260,7 @@ Description :
 					<cfset println("GroovyLoading: #qFiles.name#...")>
 				</cfloop>
 			<cfelse>
-				<!--- <cfset log.warn("GroovyLoader cannot load the directory: #thisPath# as it does not exist.")> ---><!--- <cfdump var="#thisPath#"><cfabort> --->
+				 <cfset log.warn("GroovyLoader cannot load the directory: #thisPath# as it does not exist.")> 
 			</cfif>
 		</cfloop>
 		

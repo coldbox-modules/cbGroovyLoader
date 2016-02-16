@@ -65,47 +65,13 @@ component {
 	this.dependencies 		= ['cbjavaloader'];
 
 	function configure(){
-
-		// parent settings
-		parentSettings = {
-
-		};
-
-		// module settings - stored in modules.name.settings
-		settings = {
-
-		};
-
-		// Layout Settings
-		layoutSettings = {
-			defaultLayout = ""
-		};
-
-		// datasources
-		datasources = {
-
-		};
-
-		// SES Routes
-		routes = [
-			// Module Entry Point
-			{pattern="/", handler="home",action="index"},
-			// Convention Route
-			{pattern="/:handler/:action?"}
-		];
-
-		// Custom Declared Points
-		interceptorSettings = {
-			customInterceptionPoints = ""
-		};
-
 		// Custom Declared Interceptors
 		interceptors = [
 		];
 
 		// Binder Mappings
 		// binder.map("Alias").to("#moduleMapping#.model.MyService");
-
+		
 	}
 
 	/**
@@ -114,18 +80,16 @@ component {
 	function onLoad(){
 		// parse parent settings
 		parseParentSettings();
-
+		
 		// config settings
 		var configStruct 	= controller.getConfigSettings();
 		
-		//controller.getWireBox().getInstance( "loader@cbjavaloader" ).appendPaths( settings.groovy.libPath );
 		binder.map("GroovyLoader@cbgroovy")
 			.to("#moduleMapping#.models.GroovyLoader")
 			.threadSafe()
 			.asSingleton();
 
 		controller.getWireBox().getInstance( "GroovyLoader@cbgroovy" ).configureClassPath(configStruct.groovy.libPath);	
-		//controller.getWireBox().getInstance( "GroovyLoader@cbgroovy" ).test();
 	}
 
 	/**
@@ -150,9 +114,6 @@ component {
 			// other java, groovy files path
 			libPath = ""
 		};
-
-		// if( !structKeyExists( configStruct, "groovy" ) ){ configStruct.groovy = {}; }
-		// structAppend( configStruct.groovy, defaults );
 
 		// incorporate custom settings
 		structAppend( configStruct.groovy, groovyDSL, true );
