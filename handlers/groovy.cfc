@@ -4,7 +4,7 @@
 	<cfproperty name="groovyLoader" inject="id:GroovyLoader@cbgroovy">
 	
 	<!--- Import GScript For Awesome Groovy Scripting --->
-	<cfimport prefix="groovy" taglib="/modules/cbgroovy/models/tags" />
+	<cfimport prefix="groovy" taglib="/root/modules_app/cbgroovy/models/tags" />
 
 	<cffunction name="index" access="public" returntype="void" output="false">
 		<cfargument name="event" type="any">

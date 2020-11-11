@@ -48,7 +48,7 @@
 		};
 
 		//goovy files paths
-		groovy = {libPath='/models/groovy,/models/anotherPath'};
+		groovy = { libPath = 'models/groovy,models/anotherPath' };
 
 		// Activate WireBox
 		wirebox = { enabled = true, singletonReload=false };
