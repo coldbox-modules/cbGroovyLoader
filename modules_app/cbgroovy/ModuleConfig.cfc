@@ -44,80 +44,80 @@ Optional Methods
 component {
 
 	// Module Properties
-	this.title 				= "cbgroovy";
-	this.author 			= "Sana Ullah, Luis Majano";
-	this.webURL 			= "";
-	this.description 		= "";
-	this.version			= "1.0.0";
+	this.title              = "cbgroovy";
+	this.author             = "Sana Ullah, Luis Majano";
+	this.webURL             = "";
+	this.description        = "";
+	this.version            = "1.0.0";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
-	this.viewParentLookup 	= true;
+	this.viewParentLookup   = true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
 	this.layoutParentLookup = true;
 	// Module Entry Point
-	this.entryPoint			= "cbgroovy";
+	this.entryPoint         = "cbgroovy";
 	// Model Namespace
-	this.modelNamespace		= "cbgroovy";
+	this.modelNamespace     = "cbgroovy";
 	// CF Mapping
-	this.cfmapping			= "cbgroovy";
+	this.cfmapping          = "cbgroovy";
 	// Auto-map models
-	this.autoMapModels		= false;
+	this.autoMapModels      = false;
 	// Module Dependencies
-	this.dependencies 		= ['cbjavaloader'];
+	this.dependencies       = [ "cbjavaloader" ];
 
 	function configure(){
 		// Custom Declared Interceptors
-		interceptors = [
-		];
+		interceptors = [];
 
 		// Binder Mappings
 		// binder.map("Alias").to("#moduleMapping#.model.MyService");
-		
 	}
 
 	/**
-	* Fired when the module is registered and activated.
-	*/
+	 * Fired when the module is registered and activated.
+	 */
 	function onLoad(){
 		// parse parent settings
 		parseParentSettings();
-		
+
 		// config settings
-		var configStruct 	= controller.getConfigSettings();
-		
-		binder.map("GroovyLoader@cbgroovy")
-			.to("#moduleMapping#.models.GroovyLoader")
+		var configStruct = controller.getConfigSettings();
+
+		binder
+			.map( "GroovyLoader@cbgroovy" )
+			.to( "#moduleMapping#.models.GroovyLoader" )
 			.threadSafe()
 			.asSingleton();
 
-		controller.getWireBox().getInstance( "GroovyLoader@cbgroovy" ).configureClassPath(configStruct.groovy.libPath);	
+		controller
+			.getWireBox()
+			.getInstance( "GroovyLoader@cbgroovy" )
+			.configureClassPath( configStruct.groovy.libPath );
 	}
 
 	/**
-	* Fired when the module is unregistered and unloaded
-	*/
+	 * Fired when the module is unregistered and unloaded
+	 */
 	function onUnload(){
-
 	}
 
 	/**
-	* parse parent settings
-	*/
+	 * parse parent settings
+	 */
 	private function parseParentSettings(){
-		var oConfig 		= controller.getSetting( "ColdBoxConfig" );
-		var configStruct 	= controller.getConfigSettings();
-		var groovyDSL 		= oConfig.getPropertyMixin( "groovy", "variables", structnew() );
+		var oConfig      = controller.getSetting( "ColdBoxConfig" );
+		var configStruct = controller.getConfigSettings();
+		var groovyDSL    = oConfig.getPropertyMixin( "groovy", "variables", structNew() );
 
 		// Setup Default Settings
 		configStruct.groovy = {
 			// The library path
-			groovyLibPath = "/cbgroovy/models/lib",
+			groovyLibPath : "/cbgroovy/models/lib",
 			// other java, groovy files path
-			libPath = ""
+			libPath       : ""
 		};
 
 		// incorporate custom settings
 		structAppend( configStruct.groovy, groovyDSL, true );
-
 	}
 
 }

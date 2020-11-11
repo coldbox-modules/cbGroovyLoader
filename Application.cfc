@@ -6,14 +6,14 @@ www.coldboxframework.com | www.luismajano.com | www.ortussolutions.com
 */
 component{
 	// Application properties
-	this.name = hash( getCurrentTemplatePath() );
+	this.name              = hash( getCurrentTemplatePath() );
 	this.sessionManagement = true;
-	this.sessionTimeout = createTimeSpan(0,0,30,0);
-	this.setClientCookies = true;
+	this.sessionTimeout    = createTimeSpan(0,0,30,0);
+	this.setClientCookies  = true;
 
         this.mappings = {
-                "/root"                                                 = getDirectoryFromPath( getCurrentTemplatePath() ),
-                "/coldbox"                                              = getDirectoryFromPath( getCurrentTemplatePath() )&'coldbox/'
+                "/root"    = getDirectoryFromPath( getCurrentTemplatePath() ),
+                "/coldbox" = getDirectoryFromPath( getCurrentTemplatePath() )&'coldbox/'
         };
 
 	// COLDBOX STATIC PROPERTY, DO NOT CHANGE UNLESS THIS IS NOT THE ROOT OF YOUR COLDBOX APP
@@ -21,9 +21,9 @@ component{
 	// The web server mapping to this application. Used for remote purposes or static purposes
 	COLDBOX_APP_MAPPING   = "";
 	// COLDBOX PROPERTIES
-	COLDBOX_CONFIG_FILE 	 = "";
+	COLDBOX_CONFIG_FILE   = "";
 	// COLDBOX APPLICATION KEY OVERRIDE
-	COLDBOX_APP_KEY 		 = "";
+	COLDBOX_APP_KEY       = "";
 
 	// application start
 	public boolean function onApplicationStart(){
