@@ -3,4 +3,4 @@
 settings.xml
 logs/*.log
 modules/*
-!modules/cbgroovy
+/*.zip
