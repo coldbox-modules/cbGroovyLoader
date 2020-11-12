@@ -1,0 +1,14 @@
+<ivy-module version="2.0">
+	<info organisation="GroovyLoader" module="GroovyLoader" />
+	<configurations>
+		<conf name="runtime" visibility="public" description="Runtime Dependencies" />
+	</configurations>
+	<publications />
+	<dependencies>
+		<dependency org="org.codehaus.groovy" name="groovy-jsr223" rev="latest.release" conf="runtime->runtime(*),master(*)" />
+		<dependency org="org.codehaus.groovy" name="groovy-json" rev="latest.release" conf="runtime->runtime(*),master(*)" />
+		<dependency org="org.codehaus.groovy" name="groovy-xml" rev="latest.release" conf="runtime->runtime(*),master(*)" />
+		<dependency org="org.codehaus.groovy" name="groovy-templates" rev="latest.release" conf="runtime->runtime(*),master(*)" />
+		<dependency org="org.codehaus.groovy" name="groovy-datetime" rev="latest.release" conf="runtime->runtime(*),master(*)" />
+	</dependencies>
+</ivy-module>
